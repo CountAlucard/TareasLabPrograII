@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EnterosRecursivos {
-    Scanner lea = new Scanner(System.in);
+    private Scanner lea = new Scanner(System.in);
     int enteros[];
 
     public EnterosRecursivos(int longi) 
@@ -47,10 +47,12 @@ public class EnterosRecursivos {
     {
         if(cont < enteros.length){
             if(enteros[cont] == n){
+                System.out.println("El valor si existe");
                 return true;
             }            
             return buscar(n,cont+1);            
         }
+        System.out.println("El valor no existe");
         return false;
     }
     
@@ -59,6 +61,7 @@ public class EnterosRecursivos {
         return buscar(n,0);
     }
     
+    //Funciones para encontrar el valor maximo dentro del arreglo.
     private int maximo(int m, int cont)
     {
         if(cont < enteros.length){
@@ -76,17 +79,86 @@ public class EnterosRecursivos {
         return maximo(0,0);
     }
     
+    //Funciones para imprimir tods los valores del arreglo.
     private void Print(int cont)
     {
         if(cont < enteros.length){
             System.out.print(enteros[cont] + " ");
             Print(cont+1);
-        }
+        }            
     }
     
     public void Print()
     {
-        Print(0);
+        Print(0);       
+        System.out.println();
     }
     
+    //pendiente-------------------------------
+    public void numeroAlReves()
+    {
+        
+    }
+        
+    //Funciones para validar si los valores en el arreglo forman un palindromo.
+    private boolean palindromo(int inicio, int fin)
+    {
+        if(inicio<fin){
+            if(enteros[inicio]== enteros[fin])
+                return palindromo(inicio+1, fin-1);
+            System.out.println("No es palindromo");
+            return false;
+        }
+        System.out.println("Es palindromo");
+        return true;
+    }
+    
+    public boolean palindromo()
+    {
+        return palindromo(0, enteros.length-1);
+    }
+    
+    //Funciones para ordenar los valores del arreglo. Quicksort.
+    public int[] quicksort(int numeros[], int izq, int der)
+    {
+        if(izq >= der)
+            return numeros;
+        int i = izq, d = der;
+        if(izq != der){
+            int pivote;
+            int aux;
+            pivote = izq;
+            
+            while(izq != der){
+                while(numeros[der] >= numeros[pivote] && izq < der)
+                    der--;
+                while(numeros[izq] < numeros[pivote] && izq < der)
+                    izq++;
+                
+                if (der != izq){
+                    aux = numeros[der];
+                    numeros[der] = numeros[izq];
+                    numeros[izq] = aux;
+                }
+            }
+            
+            if(izq == der){
+                quicksort(numeros, i, izq-1);
+                quicksort(numeros, izq+1,d);
+            }           
+        }
+        else
+            return numeros;
+        return numeros;
+    }
+    
+    public int[] quicksort(int numeros[])
+    {
+        return quicksort(numeros, 0, numeros.length-1);
+    }
+    
+    public void ordenarQuickSort()
+    {
+        enteros = quicksort(enteros);
+    }
 }
