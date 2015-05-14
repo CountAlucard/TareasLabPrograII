@@ -20,6 +20,7 @@ public class MainActivity extends ActionBarActivity {
 
     EditText n1Txt, n2Txt;
     TextView rTxt;
+    String resu;
     Spinner op;
     ArrayAdapter<CharSequence> adapter;
     double num1, num2, res;
@@ -43,11 +44,39 @@ public class MainActivity extends ActionBarActivity {
         calcBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(n2Txt.getText().toString().equals("0") && (op.toString().equals("/") || op.toString().equals("%"))) {
-                    rTxt.setText(0);
+                num1 = Double.parseDouble(n1Txt.getText().toString());
+                num2 = Double.parseDouble(n2Txt.getText().toString());
+
+                if(op.getSelectedItem().toString().equals("/")){
+                    res = num1 + num2;
+                }
+                else if (op.getSelectedItem().toString().equals("%")){
+                    res = num1 % num2;
+                }
+                else if (op.getSelectedItem().toString().equals("+")){
+                    res = num1 + num2;
+                }
+                else if (op.getSelectedItem().toString().equals("-")){
+                    res = num1 - num2;
+                }
+                else if (op.getSelectedItem().toString().equals("*")){
+                    res = num1 * num2;
+                }
+                else if (op.getSelectedItem().toString().equals("^")){
+                    res = 1;
+                    for(int x = 0; x < num2; x++){
+                        res *=num1;
+                    }
+                }
+
+                if((n2Txt.getText().toString().equals("0") && op.getSelectedItem().toString().equals("/")) || (n2Txt.getText().toString().equals("0") && op.getSelectedItem().toString().equals("%"))) {
+                    res = 0;
+                    resu = Double.toString(res);
+                    rTxt.setText(resu);
                     Toast.makeText(getApplicationContext(), "No se puede dividir entre 0!", Toast.LENGTH_SHORT).show();
                 }
-                rTxt.setText(res+"");
+                resu = Double.toString(res);
+                rTxt.setText(resu);
                 Toast.makeText(getApplicationContext(), "Su resultado ha sido calculado!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -55,9 +84,9 @@ public class MainActivity extends ActionBarActivity {
         clrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                n1Txt.setText(0);
-                n2Txt.setText(0);
-                rTxt.setText(0);
+                n1Txt.setText("");
+                n2Txt.setText("");
+                rTxt.setText("");
             }
         });
 
@@ -69,7 +98,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                calcBtn.setEnabled(!(n1Txt.getText().toString().trim().isEmpty() || n2Txt.getText().toString().trim().isEmpty()));
+                calcBtn.setEnabled(!(n1Txt.getText().toString().trim().isEmpty() && n2Txt.getText().toString().trim().isEmpty()));
                 clrBtn.setEnabled(!n1Txt.getText().toString().trim().isEmpty());
                 n2Txt.setEnabled(!n1Txt.getText().toString().trim().isEmpty());
             }
@@ -81,32 +110,6 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    public void onButtonClick(View v){
-        num1 = Double.parseDouble(n1Txt.getText().toString());
-        num2 = Double.parseDouble(n2Txt.getText().toString());
-
-        if(op.toString().equals("/")){
-            res = num1 + num2;
-        }
-        else if (op.toString().equals("%")){
-            res = num1 % num2;
-        }
-        else if (op.toString().equals("+")){
-            res = num1 + num2;
-        }
-        else if (op.toString().equals("-")){
-            res = num1 - num2;
-        }
-        else if (op.toString().equals("*")){
-            res = num1 * num2;
-        }
-        else if (op.toString().equals("^")){
-            res = num1;
-            for(int x = 0; x < num2; x++){
-                res *=num1;
-            }
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
