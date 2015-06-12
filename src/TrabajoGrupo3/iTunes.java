@@ -227,4 +227,20 @@ public class iTunes {
         }
     }
     
+    public static void main(String[] args) throws IOException{
+        iTunes i = new iTunes();
+        
+        
+        i.addSong("Call Me a Spaceman", "Hardwell", 1.99);
+        i.addSong("Lean On","Major Lazer", 1.99);
+        
+        i.reviewSong(1,5);
+        i.downloadSong(1,"Carlos");
+        i.downloadSong(1,"Alvaro");
+        
+        i.songs("isongs.txt");
+        i.infoSong(1);
+        
+    }
+    
 }
