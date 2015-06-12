@@ -8,6 +8,7 @@ package TrabajoGrupo3;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -40,7 +41,7 @@ public class iTunes {
      */
     public static final String ROOT = "iTunesApp";
 
-    public void Itunes(){
+    public void Itunes() {
         try {
             RandomAccessFile icodigos = new RandomAccessFile(ROOT + "/codigo.itn", "rw");
             RandomAccessFile isongs = new RandomAccessFile(ROOT + "/songs.itn", "rw");
@@ -50,7 +51,7 @@ public class iTunes {
                 icodigos.writeInt(1);
                 icodigos.writeInt(1);
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
@@ -106,6 +107,46 @@ public class iTunes {
         }
     }
 
+    public void downloadSong(int codeSong, String cliente) throws IOException {
+
+        RandomAccessFile isongs = new RandomAccessFile(ROOT + "/songs.itn", "rw");
+        RandomAccessFile idownloads = new RandomAccessFile(ROOT + "/codigo.itn", "rw");
+        Calendar c = Calendar.getInstance();
+        int codigo = -1;
+        Double Precio = -1.0;
+        String nombreC = "";
+
+        isongs.seek(0);
+
+        while (isongs.getFilePointer() < isongs.length()) {
+            if (codeSong == isongs.readInt()) {
+                codigo = getCodigo(4);
+            }
+            nombreC = isongs.readUTF();
+            isongs.readUTF();
+            Precio = isongs.readDouble();
+            isongs.readInt();
+            isongs.readInt();
+
+        }
+
+        if (codigo != -1 && codigo != -1.0) {
+
+            idownloads.seek(idownloads.length());
+            long pos = idownloads.getFilePointer();
+            int codigoDi = idownloads.read() + 1;
+            idownloads.seek(pos);
+            idownloads.writeInt(codigoDi);
+            idownloads.writeLong(c.getTimeInMillis());
+            idownloads.writeInt(codigo);
+            idownloads.writeUTF(cliente);
+            idownloads.writeDouble(Precio);
+
+            System.out.println("GRACIAS" + cliente + "Por bajar" + nombreC + "a un costo de Lps." + Precio);
+
+        }
+    }
+
     public void songs(String txtFile) throws IOException {
         RandomAccessFile report = new RandomAccessFile(ROOT + "/" + txtFile, "rw");
         RandomAccessFile isongs = new RandomAccessFile(ROOT + "/songs.itn", "rw");
@@ -126,62 +167,63 @@ public class iTunes {
             report.writeDouble(price);
             report.writeDouble(rating);
         }
-        
+
         report.seek(0);
-        
-        while(report.getFilePointer() < report.length()){
+
+        while (report.getFilePointer() < report.length()) {
             int cod = report.readInt();
             String nm = report.readUTF();
             String art = report.readUTF();
             double prc = report.readDouble();
             double stars = report.readDouble();
-            
-            System.out.println("Codigo: "+cod+" Cancion: "+nm+" Artista: "+art+" Precio: "+prc+" Rating: "+stars+"\n");
+
+            System.out.println("Codigo: " + cod + " Cancion: " + nm + " Artista: " + art + " Precio: " + prc + " Rating: " + stars + "\n");
         }
 
     }
-    
-    public void infoSong(int codeSong) throws IOException{
-        RandomAccessFile isongs = new RandomAccessFile(ROOT +"/songs.itn","rw");
-        RandomAccessFile idownloads = new RandomAccessFile(ROOT+ "/downloads.itn","rw");
-        
+
+    public void infoSong(int codeSong) throws IOException {
+        RandomAccessFile isongs = new RandomAccessFile(ROOT + "/songs.itn", "rw");
+        RandomAccessFile idownloads = new RandomAccessFile(ROOT + "/downloads.itn", "rw");
+
         int descargas = 0;
         boolean complete = false;
-        
+
         isongs.seek(0);
-        while(isongs.getFilePointer() < isongs.length()){
-            if(isongs.readInt() == codeSong){
+        while (isongs.getFilePointer() < isongs.length()) {
+            if (isongs.readInt() == codeSong) {
                 System.out.println("Informacion de la Cancion---------------");
-                isongs.seek(isongs.getFilePointer()-4);
+                isongs.seek(isongs.getFilePointer() - 4);
                 int codigo = isongs.readInt();
                 String name = isongs.readUTF();
                 String artista = isongs.readUTF();
                 double precio = isongs.readDouble();
                 int estrellas = isongs.readInt();
                 int reviews = isongs.readInt();
-                
-                System.out.println("Codigo: "+codigo+" Cancion: "+name+" Artista: "+artista
-                        +" Precio: "+precio+" Estrellas: "+estrellas+" Reviews: "+reviews);
-                
+
+                System.out.println("Codigo: " + codigo + " Cancion: " + name + " Artista: " + artista
+                        + " Precio: " + precio + " Estrellas: " + estrellas + " Reviews: " + reviews);
+
                 complete = true;
             }
         }
-        
+
         idownloads.seek(0);
-        while(idownloads.getFilePointer() < idownloads.length()){
+        while (idownloads.getFilePointer() < idownloads.length()) {
             idownloads.readInt();
             Date fecha = new Date(idownloads.readLong());
-            if(idownloads.readInt() == codeSong){
+            if (idownloads.readInt() == codeSong) {
                 descargas += 1;
                 System.out.println("Listado de Descargas--------------------");
                 String cliente = idownloads.readUTF();
                 double pcompra = idownloads.readDouble();
-                
-                System.out.println("Cliente: "+cliente+" Fecha de Descarga: "+fecha.toString()+ " Costo de la Descarga: "+pcompra+"\n");
+
+                System.out.println("Cliente: " + cliente + " Fecha de Descarga: " + fecha.toString() + " Costo de la Descarga: " + pcompra + "\n");
             }
         }
-        
-        if(complete)
-            System.out.println("Descargas Totales: "+descargas);
+
+        if (complete) {
+            System.out.println("Descargas Totales: " + descargas);
+        }
     }
 }
