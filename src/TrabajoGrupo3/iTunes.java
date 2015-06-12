@@ -92,14 +92,17 @@ public class iTunes {
         isongs.seek(0);
         
         while(isongs.getFilePointer() < isongs.length()){
-            if(isongs.getCodigo(0) == code){
+            
+            if(getCodigo(0) == code){
                 if(stars < 0 && stars > 5)
                     throw new IllegalArgumentException("La cantidad de estrellas no es aceptada.");
-                isongs.writeInt(isongs.getCodigo(4)+1);
+                isongs.writeInt(getCodigo(4)+1);
             }
             isongs.readInt();
         }
     }
+    
+    
     
     public void songs(String txtFile) throws IOException{
         
