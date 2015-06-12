@@ -5,8 +5,10 @@
  */
 package TrabajoGrupo3;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Date;
 
 /**
  *
@@ -42,7 +44,7 @@ public class iTunes {
         try {
             RandomAccessFile icodigos = new RandomAccessFile(ROOT + "/codigo.itn", "rw");
             RandomAccessFile isongs = new RandomAccessFile(ROOT + "/songs.itn", "rw");
-            RandomAccessFile idownloads = new RandomAccessFile(ROOT + "/codigo.itn", "rw");
+            RandomAccessFile idownloads = new RandomAccessFile(ROOT + "/downloads.itn", "rw");
 
             if (icodigos.length() == 0) {
                 icodigos.writeInt(1);
@@ -137,5 +139,49 @@ public class iTunes {
             System.out.println("Codigo: "+cod+" Cancion: "+nm+" Artista: "+art+" Precio: "+prc+" Rating: "+stars+"\n");
         }
 
+    }
+    
+    public void infoSong(int codeSong) throws IOException{
+        RandomAccessFile isongs = new RandomAccessFile(ROOT +"/songs.itn","rw");
+        RandomAccessFile idownloads = new RandomAccessFile(ROOT+ "/downloads.itn","rw");
+        
+        int descargas = 0;
+        boolean complete = false;
+        
+        isongs.seek(0);
+        while(isongs.getFilePointer() < isongs.length()){
+            if(isongs.readInt() == codeSong){
+                System.out.println("Informacion de la Cancion---------------");
+                isongs.seek(isongs.getFilePointer()-4);
+                int codigo = isongs.readInt();
+                String name = isongs.readUTF();
+                String artista = isongs.readUTF();
+                double precio = isongs.readDouble();
+                int estrellas = isongs.readInt();
+                int reviews = isongs.readInt();
+                
+                System.out.println("Codigo: "+codigo+" Cancion: "+name+" Artista: "+artista
+                        +" Precio: "+precio+" Estrellas: "+estrellas+" Reviews: "+reviews);
+                
+                complete = true;
+            }
+        }
+        
+        idownloads.seek(0);
+        while(idownloads.getFilePointer() < idownloads.length()){
+            idownloads.readInt();
+            Date fecha = new Date(idownloads.readLong());
+            if(idownloads.readInt() == codeSong){
+                descargas += 1;
+                System.out.println("Listado de Descargas--------------------");
+                String cliente = idownloads.readUTF();
+                double pcompra = idownloads.readDouble();
+                
+                System.out.println("Cliente: "+cliente+" Fecha de Descarga: "+fecha.toString()+ " Costo de la Descarga: "+pcompra+"\n");
+            }
+        }
+        
+        if(complete)
+            System.out.println("Descargas Totales: "+descargas);
     }
 }
