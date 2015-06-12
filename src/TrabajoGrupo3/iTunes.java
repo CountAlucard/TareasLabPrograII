@@ -52,6 +52,31 @@ public class iTunes {
         
     }
     
+     public int getCodigo(long offset) throws IOException{
+        RandomAccessFile icodigos = new RandomAccessFile(ROOT+ "/codigo.itn", "rw");
+        icodigos.seek(0);
+        
+        if(offset==0){
+        int cancion= icodigos.readInt();
+        icodigos.seek(offset);
+        icodigos.writeInt(cancion + 1);
+        return cancion;
+        }
+        
+        if(offset == 4){
+        
+        icodigos.seek(offset);
+        int download = icodigos.readInt();
+        icodigos.seek(offset);
+        icodigos.writeInt(download+1);
+        return download;
+        
+        }
+        
+        return -1;
+     
+     }
+    
     public void addSong(String nombre, String cantante, double precio) throws IOException{
         RandomAccessFile isongs = new RandomAccessFile(ROOT+ "/songs.itn", "rw");
         isongs.writeInt(getCodigo(0));
