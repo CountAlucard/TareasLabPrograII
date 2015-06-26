@@ -8,4 +8,39 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main_activity2confragment">MainActivity2confragment</string>
     <string name="title_activity_main_activit2">MainActivity2Activity</string>
+    
+    <string-array name="prestamos">
+        <item> Prestamo de juan </item>
+        <item> Prestamo de jose </item>
+        <item> Prestamo de luis </item>
+        <item> Prestamo de alfonso </item>
+
+    </string-array>
+
+    <string-array name="descripcion">
+        <item> Cliente: juan
+               Mes y año: noviembre 18
+               Balance: 6000
+
+        </item>
+        Cliente: jose
+        Mes y año: septiembre 13
+        Balance: 4000
+        <item>
+        Cliente: luis
+        Mes y año: enero 10
+        Balance: 16000
+        </item>
+
+        <item>
+        Cliente: alfonso
+        Mes y año: agosto 22
+        Balance: 1000
+        </item>
+
+
+    </string-array>
+
+
+
 </resources>
