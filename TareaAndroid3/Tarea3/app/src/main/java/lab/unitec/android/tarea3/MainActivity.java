@@ -4,6 +4,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +14,15 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String[] myList = new String[] {"Hello","World","Foo","Bar"};
+
+        ListView lv = new ListView(this);
+
+        lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myList));
+
+        setContentView(lv);
+
     }
 
     @Override
@@ -19,6 +30,8 @@ public class MainActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+
+
     }
 
     @Override
