@@ -20,26 +20,26 @@
     <string-array name="descripcion">
 
         <item> Cliente: juan
-               Mes y año: noviembre 18
+               Mes y año: noviembre 2012
                Balance: 6000
 
         </item>
 
         <item>
         Cliente: jose
-        Mes y año: septiembre 13
+        Mes y año: septiembre 2013
         Balance: 4000
         </item>
-        
+
         <item>
         Cliente: luis
-        Mes y año: enero 10
+        Mes y año: enero 2010
         Balance: 16000
         </item>
 
         <item>
         Cliente: alfonso
-        Mes y año: agosto 22
+        Mes y año: agosto 2001
         Balance: 1000
         </item>
 
