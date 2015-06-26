@@ -18,14 +18,19 @@
     </string-array>
 
     <string-array name="descripcion">
+
         <item> Cliente: juan
                Mes y año: noviembre 18
                Balance: 6000
 
         </item>
+
+        <item>
         Cliente: jose
         Mes y año: septiembre 13
         Balance: 4000
+        </item>
+        
         <item>
         Cliente: luis
         Mes y año: enero 10
