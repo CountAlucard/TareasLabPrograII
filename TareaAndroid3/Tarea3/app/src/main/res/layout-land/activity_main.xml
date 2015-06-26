@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:name="lab.unitec.android.tarea3.Fragmento1"
         android:layout_weight="1"
-        android:id="@+id/fragment3"
+        android:id="@+id/fragment1"
         android:layout_gravity="center_vertical" />
 
     <fragment
@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         android:name="lab.unitec.android.tarea3.fragmento2"
         android:layout_weight="1"
-        android:id="@+id/fragment4"
+        android:id="@+id/fragment2"
         android:layout_gravity="center_vertical" />
+
 </LinearLayout>
